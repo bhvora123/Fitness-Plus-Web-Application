@@ -1,0 +1,26 @@
+a{
+    color:blue;
+}
+ .ui-autocomplete-category {
+        font-weight: bold;
+        padding: .2em .4em;
+        margin: .8em 0 .2em;
+        line-height: 1.5;
+    }
+#squeezed_nav{
+    display:none;
+}
+@media screen and (max-width:1005px) and (min-width:768px) {
+    #squeezed_nav{
+    display:inline;
+}
+    #top_nav{
+        display:none;
+    }
+}
+
+
+
+
+
+

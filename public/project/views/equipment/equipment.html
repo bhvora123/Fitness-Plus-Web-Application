@@ -1,0 +1,44 @@
+
+<div id="main">
+    <div class="container">
+        <h2 id="page-title" class="page-header">
+            Equipment Overview
+        </h2>
+        <div class="row">
+            <div class="col-sm-8">
+           
+                 <accordion close-others="true">
+                   <accordion-group ng-repeat="equipment in equipments" heading="{{equipment.name}}" ng-click="select(equipment)">
+                         <table class="table table-striped table-bordered" >
+                             <tbody>
+                                 <tr ng-repeat="exercise in exercises" ng-show="exercises.length>0">
+                                     <th>
+                                         <a href="#/exercise/{{exercise.id}}">
+                                             <div class="media">
+                                                 <div style="width:2000px;height:70px" class="media-left">
+                                                     <img style="max-width:100%;max-height:100%"
+                                                          src="{{exercise.images}}" />
+                                                 </div>
+                                                 <div class="media-body">{{exercise.name}}</div>
+                                             </div>
+                                         </a>
+                                     </th>
+                                    
+                                 </tr>
+
+                             </tbody>
+                         </table>
+                    
+                     </accordion-group>
+                     </accordion>
+                 
+            </div>
+            <div class="col-sm-4">
+                <div>
+                   
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

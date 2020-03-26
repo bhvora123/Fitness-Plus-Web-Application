@@ -1,0 +1,138 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Fitness Plus</title>
+    <script src="JS/angular.min.js"></script>
+    <script src="JS/angular-route.js"></script>
+    <script src="JS/angular-route.min.js"></script>
+  
+    <script src="JS/project01.js"></script>
+    <script src="service/exerciseService.js"></script>
+    <script src="views/profile/profile.js"></script>
+    <script src="views/login/login.js"></script>
+    <script src="views/workout/workout.js"></script>
+    <script src="views/workoutdetail/workoutdetail.js"></script>
+    <script src="views/exercise/exercise.js"></script>
+    <script src="views/muscle/muscle.js"></script>
+    <script src="views/exercisedetail/exercisedetail.js"></script>
+    <script src="views/equipment/equipment.js"></script>
+    <script src="views/signup/signup.js"></script>
+    <script src="views/nutrition/nutrition.js"></script>
+    <script src="views/nutritiondetail/nutritiondetail.js"></script>
+    <script src="views/profile/profile.js"></script>
+    <script src="views/home/home.js"></script>
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <script src="JS/jquery.js"></script>    
+    <script src="JS/bootstrap.min.js"></script>
+      
+    
+    <script src="JS/jquery-ui.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="css/default.css" />
+    <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.12.1.js"></script>
+  
+</head>
+<body ng-app="PassportApp" style="padding-top:40px ; ">
+    <div class="container-fluid" >
+        <nav class="navbar navbar-default navbar-fixed-top" ng-controller="navCntrl">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                            data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#/home">Fitness Plus
+                       </a>
+                </div>
+                <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav" id="top_nav">
+                        <li><a href="#/home">Home</a></li>
+                        <li ng-show="currentUser"><a href="#/profile">Profile</a></li>
+                        <li><a href="#/workout">Workout   </a></li>
+                        <li><a href="#/exercise/">Exercises</a></li>
+                        <li><a href="#/muscle/">Muscle</a></li>
+                        <li><a href="#/equipment/">Equipment</a></li>
+                        <li><a href="#/nutrition/">Nutrition</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav" id="squeezed_nav">
+                        <li><a href="#/home">Home</a></li>
+                        <li ng-show="currentUser"><a href="#/profile">Profile</a></li>
+                        <li><a href="#/workout">Workout</a></li>
+                        <li class="dropdown">
+                            <a href="" class="dropdown-toggle" data-toggle="dropdown"
+                                role="button" aria-expanded="false">View
+                             <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                
+                                <li><a href="#/exercise/">Exercises</a></li>
+                                <li><a href="#/muscle/">Muscle</a></li>
+                                <li><a href="#/equipment/">Equipment</a></li>
+                                <li><a href="#/nutrition/">Nutrition</a></li>
+                            </ul>
+                        </li>
+                     </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li ng-show="!currentUser"><a href="#/" ng-click="open('sm')">Login</a></li>
+                        <li ng-show="currentUser"><a href="#/profile">{{currentUser.username}}</a></li>
+                        <li><a href="#/logout" ng-click="logout()" class="navbar-right">Logout</a></li>
+                        <li ng-show="!currentUser"><a href="#/signup">Signup</a></li>
+                    </ul>
+                </div><!--/.navbar-collapse -->
+            </div>
+            <script type="text/ng-template" id="loginContent.html">
+                <div class="modal-header">
+                    <h3 class="modal-title">Login</h3>
+                </div>
+                <!--modal for login-->
+                <div class="modal-body">
+                    <form class="form-horizontal" ng-submit="login(user)" name="myform">
+                        <fieldset>
+                            <div class="form-group" ng-class="{'has-error': myform.username.$invalid}">
+                                <label for="username" class="margin col-lg-3 control-label">UserName&nbsp;&nbsp;*</label>
+                                <div class="col-lg-5">
+                                    <input type="text" ng-model="user.username" id="username" placeholder="Username"
+                                           required class="text form-control margin" ng-change="change()">
+                                </div>
+                            </div>
+                        
+                            <div class="form-group" ng-class="{'has-error': myform.password.$invalid}">
+                                <label for="password" class="margin col-lg-3 control-label">Password&nbsp;&nbsp;*</label>
+                                <div class="col-lg-5">
+                                    <input type="password" ng-model="user.password" id="password" placeholder="xxxxxxx"
+                                           required class="text form-control margin" ng-change="change()">
+                                </div>
+                            </div>
+                            <div>
+                                <p ng-show="red === true" style="color:red">Username or password is wrong</p>
+                            </div>
+                            <div class="modal-footer">
+                                <div class="col-sm-offset-3 col-sm-6 center-align">
+                                    <button type="submit" class="btn btn-lg btn-primary btn-block" ng-disabled="myForm.$invalid">
+                                        Login
+                                    </button>
+                                    <button class="btn btn-lg btn-warning btn-block" ng-click="cancel()">Cancel</button>
+                                </div>
+                            </div>
+                          
+                            <!-- Allow form submission with keyboard without duplicating the dialog button
+            <input ng-click="signup(user)" type="submit" tabindex="-1" class="btn btn-default margin" value="Register">-->
+
+                        </fieldset>
+                    </form>
+                </div>
+              </script>
+        </nav>
+        <div ng-view></div>
+       
+
+       
+        <footer id="main-footer">
+            <div class="container">
+              
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

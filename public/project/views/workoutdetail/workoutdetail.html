@@ -1,0 +1,211 @@
+
+
+<div id="main">
+    <div class="container">
+        <div id="page-title" class="page-header">
+            <h4>Workout:: {{workout.description}}</h4>
+            <h4> Workout Created by:: {{workout.username}}</h4>
+        </div>
+        <div class="row">
+            <div class="col-sm-8">
+                <button ng-show="days.length == 0 &&  workout.userid == userId" class="btn btn-default btn-block" id="create-day" > 
+                    <p>No days for this workout. Add training day</p>
+                </button>
+                <div ng-show="days.length >0">
+                    <div ng-repeat="day in days" on-finish-render>
+                        <table class="table table-bordered " id="id_day">
+                            <thead>
+                                <tr style="background: none repeat scroll 0% 0% #F5F5F5; height:30px">
+                                    <th>
+                                        {{day.weekday}} - {{day.description}}
+
+                                    </th>
+                                    <th style="right:0px" class="col-sm-1">
+                                        <button ng-click="removeDay(day, $index)" class="btn"
+                                                    ng-show="workout.userid == userId">
+                                                <span title="Delete">
+                                                    <img src="/ProjExp1/Images/trash.svg" width="30" height="15">
+                                                </span>
+                                            </button>
+                                          </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="2" style="padding:0px">
+                                        <p ng-show="day.exercises.length ==0">No exercises selected for this day. Add one now </p>
+                                        
+                                        <div ng-show="day.exercises.length >0">
+                                            <div ng-repeat="exercise in day.exercises">
+                                                <table class="table " id="exercisesDay">
+                                                    <tbody>
+                                                        <tr ng-mouseover="hover_in(exercise, $index)">
+                                                            <td style="width:8%;border-right-width:0px">
+                                                                {{$index +1}}
+                                                                
+                                                            </td>
+                                                            <td style="border-left-width:0px;padding-left:200px">
+                                                                <div class="media">
+                                                                    <div class="media-left">
+                                                                        {{}}
+                                                                    </div>
+                                                                    <div class="media-body">
+                                                                        <h4 class="media-heading">
+                                                                            {{exercise.exercisename}}
+                                                                        </h4>
+                                                                        <p>{{exercise.sets}}*{{exercise.reps}}</p>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td style="right:0px">
+                                                                    <button ng-click="removeExercise(day, exercise,$index)" class="btn"
+                                                                            ng-show="workout.userid == userId">
+                                                                        <span title="Delete">
+                                                                            <img src="/ProjExp1/Images/trash.svg" width="30" height="25">
+                                                                        </span>
+                                                                    </button>
+                                                              </td>
+                                                        </tr>
+                                                       
+                                                       
+                                                       
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" class="col-md-12"style="width:100%">
+                                        <a class="create-exercise1" ng-click="gettingIndex($index)"
+                                           ng-show="workout.userid == userId">Add exercises to this workout day</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                      </div>
+                   </div>
+                
+                <a id="create-day" ng-show="workout.userid == userId">Add Training Days</a>
+              <!--  <button class="btn btn-default" id="create-day" ng-click="create-day">
+                    <p>No days for this workout. Add Training Day</p>
+                </button>-->
+                </div> 
+            
+            <div class="col-sm-4">
+                <div  id="main-sidebar">
+                    <h3>Steps</h3>
+                    <ol>
+                        <li>Add training days</li>
+                        <li>Add workout sets to days</li>
+                        <li>
+                            Set the repetitions for each set
+                            (use '99' for 'all repetitions you can do')</li>
+                     </ol>
+                    <h4> Here for an exercise sets and repetitions will be shown in form sets*repetitions</h4>
+                </div>
+            </div>
+    </div>
+        </div>
+</div>
+<!--  Dialog for adding workout day -->
+<div id="dialog-form" title="Add Workout day">
+    <p class="validateTips">All form fields are required.</p>
+    <hr/>
+    <form>
+            <div class="form-group" id="form-description">
+                    <label for="id_desc" class="col-md-3 control-label" >
+                        Description
+                    </label> 
+                    <div class="col-md-9">
+                        <input class="form-control" id="id_desc" maxlength="100" name="description" type="text"
+                               ng-model="description" />
+                        <span class="help-block">
+                            Ususally a description about what parts are trained, like "Arms" or "Pull Day"
+                        </span>
+                    </div>
+               
+            </div>
+            <div class="form-group" id=" =form-day">
+                <label for="id_day" class="col-md-3 control-label">
+                    Day
+                </label> 
+                <div class="col-md-9">
+                    <select  class="form-control" id="id_day" ng-model="dayvalue" name="day">
+                        <option value="1">Monday</option>
+                        <option value="2">Tuesday</option>
+                        <option value="3">Wednesday</option>
+                        <option value="4">Thursday</option>
+                        <option value="5">Friday</option>
+                        <option value="6">Saturday</option>
+                        <option value="7">Sunday</option>
+                    </select>
+                    <span class="help-block">
+                       Select a day from dropdown.
+                    </span>
+               </div>
+             </div>
+    </form>
+</div>
+
+<!--  Dialog for adding exercises-->
+<div id="dialog-form1"  title="Add Exercise">
+    <p class="validateTips">All form fields are required.</p>
+    <hr />
+    <form>
+        <div class="form-group" id="form-exercise" style="clear:both">
+            <label for="id_exer" class="col-md-3 control-label">
+                Exercises
+            </label>
+            <div class="col-md-9">
+                <input class="form-control" id="id_exer" maxlength="100"  type="text" ng-model="exercisename" />
+                <span class="help-block">
+                    You can search for one exercise, they will be grouped together for a superset. Sample "bicep"
+                </span>
+                <button class="btn btn-default" style="display: none;">Add Another exercise</button><!--will be covered later-->
+            </div>
+        </div>
+        <br />
+        <div class="form-group" id="form-sets" style="clear:both">
+            <label for="slider" class="col-md-3 control-label">
+                Number Of sets - <input type="text" id="id_sets_value" readonly 
+                                        style="border:0; font-weight:bold;" >
+            </label>
+            <div class="col-md-9" id="slider">
+
+            </div>
+        </div>
+
+        <div class="form-group" style="clear:both">
+            <label for="repetitions" class="col-md-3 control-label">
+                Repetitions
+            </label>
+            <div class="col-md-9">
+                <span class="help-block">
+                    Enter the number of repetitions for all sets, you can just enter one value: e.g.
+                     for 4 sets just enter one "10" for the repetitions, this automatically becomes "4 x 10".
+                </span>
+
+                <input type="text" id="id_repetitions" ng-model="repetitions" />
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<style>
+    table#exercisesDay tr td button {
+        display: none;
+    }
+
+    table#exercisesDay tr:hover td button {
+        display: inline-block;
+    }
+    table#id_day tr th button {
+        display: none;
+    }
+
+    table#id_day tr:hover th button {
+        display: inline-block;
+    }
+</style>

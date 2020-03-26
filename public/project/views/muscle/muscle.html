@@ -1,0 +1,63 @@
+
+
+<div id="main">
+    <div class="container ">
+    <h2 class="page-header">Muscle Overview </h2>
+        <div class="row">
+
+           <div class="col-md-12">
+               <h5> Hover with the mouse over the muscles to show corresponding exercies</h5>
+               <div class="row">
+                   <div class="col-sm-4 col-xs-6">
+                        <h3>Muscles</h3>
+                       <div style="width: 200px; height: 370px; background-image: url({{muscle1.muscleId}}),url({{muscle1.side}}); ">
+                       </div>
+                   </div>
+                   <div class="col-sm-3 col-xs-5" >
+                       <h3>Front Side</h3>
+                       <ul style="list-style-type: none;" class="list-group">
+                           <li ng-repeat="muscle in muscles" ng-mouseover="hover_in(muscle, $index)" class="list-group-item"
+                               ng-class="{sel: $index == selected}" ng-show="muscle.is_front ===true">
+                               <span>{{muscle.name}}</span>
+                               <br />
+                           </li>
+                       </ul>
+                       <h3>Back Side</h3>
+                       <ul style="list-style-type: none" class="list-group">
+                           <li ng-repeat="muscle in muscles" ng-mouseover="hover_in(muscle, $index)"
+                               ng-class="{sel: $index == selected}" class="list-group-item" ng-show="muscle.is_front ===false">
+                               <span>{{muscle.name}}</span>
+                               <br />
+                           </li>
+                       </ul>
+                    </div>
+                   <div class="col-sm-4 col-xs-6" style="margin-left:50px">
+                       <h3>Exercises</h3>
+                       <ul style="list-style-type:none;" class="list-group">
+                           <li ng-repeat="exercise in exercises" style="margin-top:8px">
+                               <a href="#/exercise/{{exercise.id}}">
+                                   {{exercise.name}}
+                                   </a>
+</li>
+                       </ul>
+                       </div>
+
+                   </div>
+               </div>
+           </div>
+        </div>
+    </div>
+
+<style>
+    .sel {
+        font-weight: bold;
+        background-color: #eeeeec;
+        border: 1px solid #babdb6;
+        box-shadow: inset 0 0 2px #d3d7cf;
+        border-radius: 2px;
+    }
+
+    .body {
+        font-family: "Open Sans Light", Arial, Helvetica, sans-serif;
+    }
+</style>

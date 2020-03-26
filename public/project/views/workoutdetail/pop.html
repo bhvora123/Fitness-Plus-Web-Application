@@ -1,0 +1,128 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Implementing Security</title>
+    
+    <script src="../../JS/angular.min.js"></script>
+    <script src="../../JS/jquery.js"></script>
+    <script src="../../JS/jquery-ui.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <link href="../../css/bootstrap.css" rel="stylesheet" />
+    <script src="pop.js"></script>
+    <style>
+        .ui-autocomplete-category {
+            font-weight: bold;
+            padding: .2em .4em;
+            margin: .8em 0 .2em;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body ng-app="ExerciseApp">
+    <header>
+        <h1 class="text-center">Adding functionality for adding exercises to training days</h1>
+    </header>
+    <article>
+        <div class="maindiv text-center">
+            <div class="div-header"><h3> About the experiment</h3></div>
+            <p>
+               In this experiment I have created the basic layout for adding exercises. Here in input for exercises user can enter a excerise name. Here
+                I created a auto complete using JQuery where what ever user write will be evaluated by my auto complete and it will find the
+                relevant exercies from the service and display in UI along with categories.
+            </p>
+            <hr />
+        </div>
+    </article>  
+
+
+    <!--  Dialog for adding workout day -->
+    <div id="dialog-form" ng-controller="ExerciseController" title="Add Workout day">
+        <p class="validateTips">All form fields are required.</p>
+        <hr />
+        <form>
+            <div class="form-group" id="form-exercise" style="clear:both">
+                <label for="id_exer" class="col-md-3 control-label">
+                    Exercises
+                </label>
+                <div class="col-md-9">
+                    <input class="form-control" id="id_exer" maxlength="100" name="description" type="text" />
+                    <span class="help-block">
+                        You can search for one exercise, they will be grouped together for a superset. Sample "bicep"
+                    </span>
+                    <button class="btn btn-default" style="display: none;">Add Another exercise</button><!--will be covered later-->
+                </div>
+            </div>
+            <br/>
+            <div class="form-group" id="form-sets" style="clear:both">
+                <label for="slider" class="col-md-3 control-label">
+                    Number Of sets - <input type="text" id="id_sets_value" readonly style="border:0; font-weight:bold;">
+                </label>
+                <div class="col-md-9" id="slider">
+
+                </div>
+            </div>
+            
+            <div class="form-group" style="clear:both">
+                <label for="repetitions" class="col-md-3 control-label">
+                    Repetitions</label>
+                    <div class="col-md-9">
+                        <span class="help-block">
+                            Enter the number of repetitions for all sets, you can just enter one value: e.g. for 4 sets just enter one "10" for the repetitions, this automatically becomes "4 x 10".
+                        </span>
+
+                        <input type="text" id="repetitions" />
+                    </div>
+               </div>
+        </form>
+    </div>
+    
+    <!--  Dialog for adding exercises-->
+    <div class="maindiv">
+        
+        <h4> Code Snippet</h4>
+        <hr />
+        <pre>
+                    Client side  >>
+                                 $(function () {
+                                    var data = [
+                                      { label: "anders", category: "mail" }
+              
+                                    ];
+                                    $("#id_exer").catcomplete({
+                                        delay: 0,
+                                        source: exercisesWithCategories
+                                    });
+                                    $("#slider").slider({
+                                        value: 4,
+                                        min: 0,
+                                        max: 10,
+                                        step: 1,
+                                        slide: function (event, ui) {
+                                            $("#id_sets_value").val( + ui.value);
+                                        }
+                                    });
+                                    $("#id_sets_value").val($("#slider").slider("value"));
+                                });
+        </pre>
+    </div>
+    <hr />
+    <div class="maindiv">
+        <h4> Code Snippet Explanation</h4>
+        <hr />
+        <p>
+            Here at client side user can give input for exercise name. Here
+                I created a auto complete using JQuery where what ever user write will be evaluated by my auto complete and it will find the
+                relevant exercies from the service and display in UI along with categories.
+        </p>
+        <hr />
+        <h4> Source Code</h4>
+        <a href="http://net4.ccs.neu.edu/home/ashutver/fileview/Default.aspx?~/Experiments/NodeJs/public/index05.html" target="_blank">HTML Source</a>
+        <a href="http://net4.ccs.neu.edu/home/ashutver/fileview/Default.aspx?~/Experiments/NodeJs/public/clientApp02.js" target="_blank">JS Source</a>
+        <a href="http://net4.ccs.neu.edu/home/ashutver/fileview/Default.aspx?~/Experiments/NodeJs/server.js" target="_blank">Server Source</a>
+        <hr />
+        <h4>Refrences</h4>
+        <a href="https://nodejs.org/" target="_blank">Node</a>
+
+        <hr />
+    </div>
+</body>
+</html>

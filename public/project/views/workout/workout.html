@@ -1,0 +1,182 @@
+<div class="container">
+    <h2 class="page-header"> Workouts</h2>
+       <div class="container">
+            <div class="row">
+                <div class="col-sm-8">
+                    <div  ng-show="userId">
+                        <h3>Your Workouts</h3>
+                        <tabset>
+                           
+                            <tab heading ="Workouts created" active="true">
+                                <table class="table table-striped" id="myworkouts">
+                                    <thead>
+                                        <tr>
+                                            <th> Workout description</th>
+                                            <th> Date</th>
+                                           
+                                            <th>Operation</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="workout in ownworkouts">
+
+                                            <td><a href="#/workout/{{workout._id}}">{{workout.description}}</a></td>
+                                            <td>{{workout.creationdate | date:'longDate'}}</td>
+                                            <td>
+                                                <input ng-click="publish(workout._id)" class="btn btn-default buttonFont "
+                                                       ng-show="{{!workout.publish}} &&{{userId==workout.userid}}" value="Publish" />
+                                                <input class="btn btn-default buttonFont" value="Published"
+                                                       ng-show="{{workout.publish}}&&{{userId==workout.userid}}"  />
+
+                                            </td>
+                                            <td class="col-sm-2">
+                                                <button ng-click="remove(workout._id)" class="btn  pull-right"
+                                                        ng-show="{{userId==workout.userid}}" style="padding-right:10px">
+                                                  
+                                                     <img src="/ProjExp1/Images/trash.svg" width="25" height="25">
+                                                </button>
+                                                <button ng-click="edit(workout)" class="btn"
+                                                        ng-show="{{userId==workout.userid}}" style="padding-right:10px">
+                                                
+                                                    <img src="/ProjExp1/Images/edit.svg" width="25" height="25">
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </tab>
+                            <tab  heading="workouts followed" >
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th> Workout description</th>
+                                            <th> Date</th>
+                                            <th>Unfollow</th>
+                                          <th>Followed By</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="workout in followedworkouts">
+
+                                            <td><a href="#/workout/{{workout._id}}">{{workout.description}}</a></td>
+                                            <td>{{workout.creationdate | date:'longDate'}}</td>
+                                            <td>
+                                                <input class="btn btn-default buttonFont" value="Unfollow"
+                                                       ng-show="{{userId!=workout.userid}}" ng-click="unfollow(workout._id)">
+                                            </td>
+                                            <td>{{workout.followers}}</td>
+                                           
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </tab>
+                        </tabset>
+                      
+                    </div>
+                    <div class="container" ng-show="!userId">
+                        <p>You have to Login to create or follow famous workouts</p>
+                    </div>
+                        <h3 style="padding-top:50px">Famous published workouts</h3>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Workout description</th>
+                                    <th>Date</th>
+                                    <th>Username</th>
+                                    <th>Role</th>
+                                    <th>Follow</th>
+                                    <th>Followed by</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="workout in publishedworkouts">
+
+                                    <td><a href="#/workout/{{workout._id}}">{{workout.description}}</a></td>
+                                    <td>{{workout.creationdate | date:'longDate'}}</td>
+                                    <td>{{workout.username}}</td>
+                                    <td>{{workout.role}}</td>
+                                    <td>
+                                       <input class="btn btn-default buttonFont" value="Follow"
+                                               ng-show="userId" ng-click="follow(workout._id)">
+                                        <span class="glyphicon glyphicon-minus" title="Log in to follow this workout"
+                                              ng-show="!userId"></span>
+                                    </td>
+                                    <td>{{workout.followers}}</td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                <div class="col-sm-4">
+                    <div >
+                        <button id="addContent" ng-show="userId"
+                                 ng-click="show()" class="btn btn-default">Add Workout</button>
+                        <br />
+                        <div collapse="isCollapsed">
+                           <input type="text" ng-model="data" />
+                            <button id="save" ng-click="save()">Save</button>
+                            <button id="cancel" ng-click="cancel()">Cancel</button>
+                        </div>
+                        <div class="newContent">
+                          
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<style>
+    .buttonFont {
+        font-weight: bold;
+        background-color: #424242;
+        border: 1px solid #babdb6;
+        box-shadow: inset 0 0 2px #d3d7cf;
+        border-radius: 2px;
+        
+    }
+
+    .body {
+        font-family: "Open Sans Light", Arial, Helvetica, sans-serif;
+    }
+    table#myworkouts tr td button {
+        display: none;
+    }
+
+    table#myworkouts tr:hover td button {
+        display: inline-block;
+    }
+</style>
+
+<script type="text/ng-template" id="workouContent.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Workout name: </h3>
+    </div>
+    <!--modal for login-->
+    <div class="modal-body">
+        <form class="form-horizontal" ng-submit="editWorkout(workoutname)" name="myform">
+            <fieldset>
+                <div class="form-group" >
+                    <label for="username" class="margin col-lg-3 control-label">Workout name</label>
+                    <div class="col-lg-9">
+                        <input type="text" ng-model="workoutname" id="workoutname" placeholder="workoutname"
+                               required class="text form-control margin">
+                    </div>
+                </div>
+
+               
+                <div class="modal-footer">
+                    <div class="col-sm-offset-3 col-sm-8 inline-block">
+                        <button type="submit" class="btn btn-lg btn-primary btn-block" ng-disabled="myForm.$invalid">
+                            Submit
+                        </button>
+                        <button class="btn btn-lg btn-warning btn-block" ng-click="cancel()">Cancel</button>
+                    </div>
+                </div>
+
+                <!-- Allow form submission with keyboard without duplicating the dialog button
+                <input ng-click="signup(user)" type="submit" tabindex="-1" class="btn btn-default margin" value="Register">-->
+
+            </fieldset>
+        </form>
+    </div>
+</script>
